@@ -16,6 +16,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",
+    "tedious": "^9.2.1",
     "webpack": "4.42.0"
   },
   "scripts": {
