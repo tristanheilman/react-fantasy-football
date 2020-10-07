@@ -18,7 +18,7 @@ export function SampleComponent() {
 
     return (
         <div>
-        This is a sample component
+        This is a sample component (edited)
 
         <ol>
         {teams.length > 0 ? teams.map((item, index) => <li key={index}>{item.team}</li>) : null}
