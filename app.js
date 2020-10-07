@@ -1,4 +1,6 @@
+require('dotenv').config();
 const express = require('express');
+const path = require('path');
 const mysql = require('mysql');
 const { Connection, Request } = require("tedious");
 
@@ -6,25 +8,31 @@ const app = express();
 const port = 8000;
 
 // Create connection to database
+console.log("ENV PROCESS: ", process.env);
 const config = {
   authentication: {
     options: {
-      userName: "azureuser", // update me
-      password: "Password1234" // update me
+      userName: process.env.MYSQL_USER,
+      password: process.env.MYSQL_PWD
     },
     type: "default"
   },
-  server: "sqlservermidterm.database.windows.net", // update me
+  server: process.env.MYSQL_HOST,
   options: {
-    database: "nflmidterm", //update me
+    database: process.env.MYSQL_DB,
     encrypt: true
   }
 };
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, 'build')));
 
-app.listen(port, () => {
-  console.log(`App server now listening to port ${port}`);
+// The "catchall" handler: for any request that doesn't
+// match one above, send back React's index.html file.
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
+// API Functions
 app.get('/api/users', (req, res) => {
     const connection = new Connection(config);
 
@@ -33,11 +41,13 @@ app.get('/api/users', (req, res) => {
       if (err) {
         console.error(err.message);
       } else {
+          console.log("HERE")
           queryDatabase(connection, res);
       }
     });
 });
 
+// Query Functions
 function queryDatabase(conn, result) {
     console.log("Reading rows from the Table...");
 
@@ -65,3 +75,7 @@ function queryDatabase(conn, result) {
 
     conn.execSql(request);
 }
+
+app.listen(port, () => {
+  console.log(`App server now listening to port ${port}`);
+});

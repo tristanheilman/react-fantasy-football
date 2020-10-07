@@ -20,7 +20,7 @@ Under the "scripts" section you will see this:
   "build": "react-scripts build",
   "test": "react-scripts test",
   "eject": "react-scripts eject",
-  "server": "nodemon -r dotenv/config ./src/server/server.js",
+  "server": "nodemon -r dotenv/config app.js",
   "client": "react-scripts start",
   "dev": "concurrently \"yarn run server\" \"yarn run client\""
 },
