@@ -24,9 +24,10 @@
     "webpack": "4.42.0"
   },
   "scripts": {
-    "start": "node app.js",
     "build": "react-scripts build",
-    "dev": "concurrently \"yarn run server\" \"yarn run client\""
+    "server": "nodemon -r dotenv/config ./src/server/server.js",
+    "client": "react-scripts start",
+    "start": "concurrently \"yarn run server\" \"yarn run client\""
   },
   "eslintConfig": {
     "extends": "react-app"
