@@ -8,7 +8,6 @@ const app = express();
 const port = 8000;
 
 // Create connection to database
-console.log("ENV PROCESS: ", process.env);
 const config = {
   authentication: {
     options: {
@@ -35,7 +34,8 @@ app.get('/', (req, res) => {
 // API Functions
 app.get('/api/users', (req, res) => {
     const connection = new Connection(config);
-
+    console.log("CONNECTION: ", connection);
+    
     // Attempt to connect and execute queries if connection goes through
     connection.on("connect", err => {
       if (err) {
