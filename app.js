@@ -12,14 +12,14 @@ console.log("ENV PROCESS: ", process.env);
 const config = {
   authentication: {
     options: {
-      userName: process.env.MYSQL_USER,
-      password: process.env.MYSQL_PWD
+      userName: "azureuser",
+      password: "Password1234"
     },
     type: "default"
   },
-  server: process.env.MYSQL_HOST,
+  server: "sqlservermidterm.database.windows.net",
   options: {
-    database: process.env.MYSQL_DB,
+    database: "nflmidterm",
     encrypt: true
   }
 };
