@@ -28,7 +28,6 @@ app.use(express.static(path.join(__dirname, 'build')));
 app.get('/api/users', (req, res) => {
     const connection = new Connection(config);
     console.log("CONNECTION: ", connection);
-    
     // Attempt to connect and execute queries if connection goes through
     connection.on("connect", err => {
       if (err) {
