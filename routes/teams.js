@@ -1,34 +1,29 @@
 var express = require('express');
 var router = express.Router();
-var request = require('request');
+var async = require('express-async-await')
+var fetch = require('node-fetch');
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  const environment = process.env.NODE_ENV || 'development';
-  console.log("ENV: ", environment);
-  var url = 'http://cc-fantasy-football.azurewebsites.net/api/teams';
-  if(environment == 'development') url = 'https://cc-fantasy-football.azurewebsites.net/api/teams';
+router.get('/', async function(req, res, next) {
+  var url = 'https://cc-fantasy-football.azurewebsites.net/api/teams';
 
-  request(url, function (err, response, body) {
-    if (err || response.statusCode !== 200) {
-      return res.render('error', { title: 'Fantasy Football', message: JSON.stringify(response)});
-    }
-
-    res.render('teams', { title : 'Fantasy Football', teams : JSON.parse(body).data });
+  const queryResult = await fetch(url)
+  .then(response => response.json())
+  .then(result => {
+    return {status: 200, data: result.data};
+  })
+  .catch(error => {
+    return {status: 500, data: error};
   });
 
-  // fetch(url)
-	// .then(result => {
-  //   console.log("RESULT: ", result);
-  //   return result.json()
-  // })
-	// .then(data=> {
-  //   console.log("DATA: ", data);
-	//   res.render('teams', { title : 'Fantasy Football', teams : JSON.parse(data).data });
-	// })
-	// .catch(err => {
-	// 	res.render('error', { title: 'Fantasy Football', message: 'message'});
-	// });
+  if(queryResult.status == 200) {
+    res.render('teams', { title : 'Fantasy Football', teams : queryResult.data });
+  } else {
+    res.render('error', { message : queryResult.data });
+  }
+
+
+
 });
 
 module.exports = router;

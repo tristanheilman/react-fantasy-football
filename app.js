@@ -27,8 +27,6 @@ const config = {
     encrypt: true
   }
 };
-
-// API Functions
 app.get('/api/teams', (req, res) => {
   const connection = new Connection(config);
 
@@ -69,7 +67,7 @@ function queryDatabase(conn, result) {
   FROM [SalesLT].[Product]`,
       (err, rowCount, rows) => {
           if (err) {
-              result.send({ status: 500, data: null, message: "Internal Server Error."});
+              result.send({ status: 500, data: err, message: "Internal Server Error."});
           } else {
               result.send({ status: 200, data: data, message: "OK"});
           }
@@ -97,7 +95,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '/public')));
 
 app.use('/', indexRouter);
 app.use('/teams', teamsRouter);
@@ -115,7 +113,7 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.render('error', {message: err});
 });
 
 module.exports = app;
