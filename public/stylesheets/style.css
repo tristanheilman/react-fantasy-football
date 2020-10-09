@@ -1,3 +1,7 @@
+body {
+  font-family: sans-serif;
+}
+
 .wrapper {
   margin: 0 auto;
   width: 960px;
@@ -12,7 +16,7 @@ header {
 }
 
 nav {
-  background-color: #a93b89;
+  background-color: rgb(31, 149, 189);
   text-transform: uppercase;
 }
 
@@ -47,3 +51,65 @@ footer {
   text-align: center;
   grid-column: span 2;
 }
+
+/* LOGIN SCREEN CSS */
+
+input[type=text], input[type=password] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+.cancelbtn {
+  width: auto;
+  padding: 10px 18px;
+  background-color: #f44336;
+}
+
+.selectbtn {
+    width: auto;
+    padding: 10px 18px;
+    background-color: #5c73f5;
+}
+
+.imgcontainer {
+  text-align: center;
+  margin: 24px 0 12px 0;
+}
+
+img.avatar {
+  width: 40%;
+  border-radius: 50%;
+}
+
+.container {
+  padding: 16px;
+}
+
+/* Team Selection CSS */
+.selection-columns {
+    padding: 20px;
+    margin: .5em;
+    background-color: #91c7fa;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 1em;
+}
+

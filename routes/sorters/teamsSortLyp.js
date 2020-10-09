@@ -4,9 +4,9 @@ var async = require('express-async-await')
 var fetch = require('node-fetch');
 
 router.get('/', async function(req, res, next) {
-    var url = 'http://localhost:3000/api/teams';
+    var url = 'http://localhost:3000/api/teams/sort-lyp';
     if(process.env.NODE_ENV != 'development') {
-        url = 'https://cc-fantasy-football.azurewebsites.net/api/teams';
+        url = 'https://cc-fantasy-football.azurewebsites.net/api/teams/sort-lyp';
     }
 
     const queryResult = await fetch(url)
