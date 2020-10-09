@@ -12,11 +12,14 @@ function Login(props) {
                 <label for="psw"><b>Password</b></label>
                 <input type="password" placeholder="Enter Password" name="psw" required/>
 
-                <button type="submit">Login</button>
             </div>
 
             <div className="container">
-                <button type="button" class="cancelbtn" onclick="loginUser()">Cancel</button>
+                <button className="submitbtn" type="submit">Login</button>
+            </div>
+
+            <div className="container">
+                <button className="selectbtn" type="submit">Register</button>
             </div>
         </form>
     </DefaultLayout>

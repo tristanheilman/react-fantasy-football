@@ -84,9 +84,15 @@ button:hover {
 }
 
 .selectbtn {
-    width: auto;
-    padding: 10px 18px;
-    background-color: #5c73f5;
+  width: auto;
+  padding: 10px 18px;
+  background-color: #5c73f5;
+}
+
+.submitbtn {
+  width: auto;
+  padding: 10px 18px;
+  background-color: #4CAF50;
 }
 
 .imgcontainer {

@@ -1,10 +1,12 @@
 require('dotenv').config();
 var createError = require('http-errors');
 var express = require('express');
+var session = require('express-session');
 var path = require('path');
 const { Connection, Request } = require("tedious");
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const { v4: uuidv4 } = require('uuid');
 
 var indexRouter = require('./routes/index');
 var statsRouter = require('./routes/stats');
@@ -123,6 +125,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(session({secret: uuidv4()}));
 app.use(express.static(path.join(__dirname, '/public')));
 
 // Router mounting

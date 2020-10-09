@@ -7,6 +7,7 @@ function Index(props) {
         <div>
             <h3>Deployment Info:</h3>
             <p>React-Express NodeJS Web Application with connections to a MySQL Database!</p>
+            <p>Page Views: {props.page_views}</p>
         </div>
     </DefaultLayout>
   );
