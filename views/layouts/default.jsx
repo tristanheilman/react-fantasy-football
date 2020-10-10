@@ -16,11 +16,12 @@ function DefaultLayout(props) {
                 <nav>
                     <ul>
                         <li><a href="/">Home</a></li>
-                        <li><a href="/stats">Player Stats</a></li>
+                        <li><a href="/players">Player Stats</a></li>
                         <li><a href="/teams">Team Stats</a></li>
                         <li><a href="/squad-selection">Select Your Squad</a></li>
                         <li><a href="/squad-rankings">Squad Rankings</a></li>
                         <li><a href="/login">Login</a></li>
+                        <li><a href="/register">Register</a></li>
                     </ul>
                 </nav>
           

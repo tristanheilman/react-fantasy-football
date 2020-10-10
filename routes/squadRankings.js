@@ -5,7 +5,7 @@ router.get('/', function(req, res, next) {
 
     res.render('squadRankings', {
         title: 'Fantasy Football', 
-        name: 'Express' 
+        user: req.session.user
     });
 });
 
