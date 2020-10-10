@@ -16,7 +16,7 @@ The relevant statistics for each player should be gathered from the publicly acc
 
 1. Give a cool team name to your Project team of 3 (or less) and select a lead. (Points: 1).
 2. Use Agile development methodology for development effort and provide a short write-up on i. what worked, ii. what did not, iii. What improvements can be made. (No more than 300 words). Google search “Agile Retrospective” for information. (Points: 3).
-3. Create a data store / database in Azure of your choice and load relevant statistics for a minimum of 10 NFL players each for each quarterback, running back, wide receiver, and tight end: (Azure SQL, PostgreSQL, MySQL, Mongo DB, Azure Storage Account etc.) See  http://www.sports-reference.com (Links to an external site.) to ger the Stats. (Points: 3).
+3. Create a data store / database in Azure of your choice and load relevant statistics for a minimum of 10 NFL players each for each quarterback, running back, wide receiver, and tight end: (Azure SQL, PostgreSQL, MySQL, Mongo DB, Azure Storage Account etc.) See  [Sports Reference](http://www.sports-reference.com)to ger the Stats. (Points: 3).
 4. Launch / configure Web server in Azure (any platform accepted but should be accessible through the internet). (Points: 2)
 5. Design an interactive web page to do the following:
 6. Create a Registration page for Participants and store it in an Azure data store or database: (Points: 1)
