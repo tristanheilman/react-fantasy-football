@@ -15,6 +15,7 @@ function Index(props) {
                     <p>Last Name: {props.user.lastName}</p>
                     <p>User Name: {props.user.userName}</p>
                     <p>Email: {props.user.email}</p>
+                    <p>ID: {props.user.id}</p>
                 </section>
             }
         </div>

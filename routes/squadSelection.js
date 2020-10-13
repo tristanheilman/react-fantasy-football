@@ -1,15 +1,32 @@
 var express = require('express');
 var router = express.Router();
 var fetch = require('node-fetch');
+const { Connection, Request } = require("tedious");
+
+const config = {
+    authentication: {
+        options: {
+        userName: "azureuser",
+        password: "Password1234"
+        },
+        type: "default"
+    },
+    server: "nflsqlserver.database.windows.net",
+    options: {
+        database: "nflmidterm",
+        encrypt: true
+    }
+};
 
 router.get('/', async function(req, res, next) {
-    var url = 'http://localhost:3000/api/players/qb';
+    var squadUrl = 'http://localhost:3000/api/user-squad';
     if(process.env.NODE_ENV != 'development') {
-        url = 'https://cc-fantasy-football.azurewebsites.net/api/players/qb';
+        squadUrl = 'https://cc-fantasy-football.azurewebsites.net/api/user-squad';
     }
 
     if(req.session.user) {
-        const queryResult = await fetch(url)
+
+        const squadQueryResult = await fetch(squadUrl)
         .then(response => response.json())
         .then(result => {
             return {status: 200, data: result.data};
@@ -19,15 +36,19 @@ router.get('/', async function(req, res, next) {
             return {status: 500, data: []};
         });
 
-        if(queryResult.status == 200) {
-            res.render('squadSelection', { title : 'Fantasy Football', user: req.session.user, players : queryResult.data });
+
+
+        if(squadQueryResult.status == 200) {
+            res.render('squadSelection', { title : 'Fantasy Football', user: req.session.user, userSquad: squadQueryResult.data});
         } else {
             res.render('error', { message : queryResult.data });
         }
     } else {
-        res.render('squadSelection', { title : 'Fantasy Football', user: null, players: [] });
+        res.render('login', { title : 'Fantasy Football' });
     }
 
 });
+
+
 
 module.exports = router;

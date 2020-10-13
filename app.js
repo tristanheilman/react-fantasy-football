@@ -12,7 +12,7 @@ var indexRouter = require('./routes/index');
 var playersRouter = require('./routes/players');
 var teamsRouter = require('./routes/teams');
 var squadSelection = require('./routes/squadSelection');
-var squadRankings = require('./routes/squadRankings');
+var playerDraftRouter = require('./routes/playerDraft');
 var loginRouter = require('./routes/login');
 var registerRouter = require('./routes/register');
 var apiRouter = require('./routes/api');
@@ -40,7 +40,7 @@ app.use('/teams', teamsRouter);
 app.use('/login', loginRouter);
 app.use('/register', registerRouter);
 app.use('/squad-selection', squadSelection);
-app.use('/squad-rankings', squadRankings);
+app.use('/player-draft', playerDraftRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
