@@ -61,6 +61,18 @@ main {
   overflow: hidden;
 }
 
+.tableWrapper {
+    overflow-x: scroll;
+}
+
+.squad-standings-table {
+    width: 400%;
+}
+
+.players-table {
+    width: 200%;
+}
+
 table {
     width: 100%;
 }

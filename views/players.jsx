@@ -12,8 +12,8 @@ function Players(props) {
                 <button type="button" className="selectbtn" type="submit">Search</button>
                 </form>
             </div>
-            <div>
-               <table className="table">
+            <div className="tableWrapper">
+               <table className="players-table">
                     <thead>
                         <tr>
                             <form action="/players" method="get">

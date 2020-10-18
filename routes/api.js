@@ -43,7 +43,7 @@ router.post('/login', function(req, res) {
     const sql = `SELECT TOP 1 ID, FirstName, LastName, Username, Email
                 FROM dbo.Users
                 WHERE Username = '${req.body.uname}' AND PW = '${req.body.psw}';`;
-
+                
     // Attempt to connect and execute queries if connection goes through
     connection.on("connect", err => {
         if (err) {
@@ -1055,6 +1055,8 @@ router.get('/players/wr', function(req, res) {
 router.get('/user-squad', function(req, res) {
     const connection = new Connection(config);
 
+    console.log("REQ: ", req.body);
+
     const sql = `SELECT 
                     QBPlayer.Position as QBPosition,
                     QBPlayer.FirstName as QBFirstName,
@@ -1207,45 +1209,6 @@ function queryPlayersTable(conn, sqlString, result) {
             cmpPerc: row[11].value,
             int: row[12].value,
             gamesPlayed: row[13].value
-        });
-    })
-
-    conn.execSql(request);
-}
-
-function queryUserSquad(conn, sqlString, result) {
-
-    let data = [];
-    const request = new Request(sqlString,
-        (err, rowCount, rows) => {
-            if (err) {
-                result.send({ status: 500, data: err, message: "Internal Server Error."});
-            } else {
-                result.send({ status: 200, data: data, message: "OK"});
-            }
-        }
-    );
-
-    request.on('row', function(row){
-        data.push({
-            qbPosition: row[0].value,
-            qbFirstName: row[1].value,
-            qbLastName: row[2].value,
-            rb1Position: row[3].value,
-            rb1FirstName: row[4].value,
-            rb1LastName: row[5].value,
-            rb2Position: row[6].value,
-            rb2FirstName: row[7].value,
-            rb2LastName: row[8].value,
-            tePosition: row[9].value,
-            teFirstName: row[10].value,
-            teLastName: row[11].value,
-            wr1Position: row[12].value,
-            wr1FirstName: row[13].value,
-            wr1LastName: row[14].value,
-            wr2Position: row[15].value,
-            wr2FirstName: row[16].value,
-            wr2LastName: row[17].value
         });
     })
 
