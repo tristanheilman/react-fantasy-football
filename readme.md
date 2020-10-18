@@ -40,4 +40,13 @@ Note: If you do not have npm downloaded and installed, I suggest going to this l
 5. Open up your browser and navigate to localhost:3000
 
 
+# Production Server
+
+Our group is running this web application on Azure's Web App Services. The external link to view the latest release is here: 
+
+https://cc-fantasy-football.azurewebsites.net/
+
+
+
+
 
