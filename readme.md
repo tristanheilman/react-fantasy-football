@@ -46,6 +46,10 @@ Our group is running this web application on Azure's Web App Services. The exter
 
 https://cc-fantasy-football.azurewebsites.net/
 
+# Submission Comments
+
+Our writeup for Agile development methodology can be found by opening the agileMethods.md file. All code above is used for the web application (SQL Scripts included in the /api folder). The /functions folder includes the code related to our azure function NodeJS app.
+
 
 
 
