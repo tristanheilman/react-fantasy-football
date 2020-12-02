@@ -58,7 +58,7 @@ ul li {
 main {
   background-color: lightblue;
   padding: 1em 2em;
-  overflow: hidden;
+  overflow: scroll;
 }
 
 .tableWrapper {
@@ -76,23 +76,23 @@ main {
 table {
     width: 100%;
 }
-  
+
 table, td {
     border-collapse: collapse;
     border: 1px solid #000;
 }
-  
+
 thead {
     display: table; /* to take the same width as tr */
     width: calc(100% - 17px); /* - 17px because of the scrollbar width */
 }
-  
+
 tbody {
     display: block; /* to enable vertical scrolling */
     max-height: 300px; /* e.g. */
     overflow-y: scroll; /* keeps the scrollbar even if it doesn't need it; display purpose */
 }
-  
+
 th, td {
     width: 4%; /* to enable "word-break: break-all" */
     padding: 5px;
@@ -102,13 +102,13 @@ th, td {
 th {
     font-size: 78%;
 }
-  
+
 tr {
     display: table; /* display purpose; th's border */
     width: 100%;
     box-sizing: border-box; /* because of the border (Chrome needs this line, but not FF) */
 }
-  
+
 td {
     text-align: center;
     border-bottom: none;

@@ -12,22 +12,24 @@ function DefaultLayout(props) {
                 <header>
                     <h1>Cloud Computer - Fantasy Football Wep App</h1>
                 </header>
-          
+
                 <nav>
                     <ul>
                         <li><a href="/">Home</a></li>
+                        <li><a href="/game-details">NFL Game Details</a></li>
                         <li><a href="/players">Player Stats</a></li>
                         <li><a href="/teams">Team Stats</a></li>
+                        <li><a href="/standings">Team Standings</a></li>
                         <li><a href="/squad-selection">Your Squad</a></li>
                         <li><a href="/login">Login</a></li>
                         <li><a href="/register">Register</a></li>
                     </ul>
                 </nav>
-          
+
                 <main>
                     {props.children}
                 </main>
-          
+
                 <footer>
                     <p>Created by: Tristan Heilman, Sean Hearne and Ryan Gruss</p>
                 </footer>

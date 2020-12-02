@@ -1,52 +1,52 @@
 var React = require('react');
 var DefaultLayout = require('./layouts/default');
 
-function squadselection(props) {
-    
+function SquadSelection(props) {
+
     return (
         <DefaultLayout title={props.title}>
             <div>
                 <h3>Squad Selection</h3>
-                {props.user == undefined ? 
+                {props.user == undefined ?
                     <section>
                         <p>Login to see where your squad ranks against the others!</p>
-                    </section> 
+                    </section>
                 :
                     <section className="selection-columns">
                         <section className="column1">
                             <h4>Your Squad</h4>
                             <ul>
-                                <li key={1}>QB: {props.squads[0].qbFirstName == null ? 
+                                <li key={1}>QB: {props.squads[0].qbFirstName == null ?
                                     <form action="/player-draft" method="post">
                                         <input type="hidden" value="qb" name="position" />
                                         <input type="hidden" value="QBPlayerID" name="columnName" />
                                         <button type="button" className="selectbtn" type="submit">Draft your QB</button>
                                     </form> : props.squads[0].qbFirstName + " " + props.squads[0].qbLastName}</li>
-                                <li key={2}>RB #1: {props.squads[0].rb1FirstName == null ? 
+                                <li key={2}>RB #1: {props.squads[0].rb1FirstName == null ?
                                      <form action="/player-draft" method="post">
                                         <input type="hidden" value="rb" name="position" />
                                         <input type="hidden" value="RB1PlayerID" name="columnName" />
                                         <button type="button" className="selectbtn" type="submit">Draft your RB #1</button>
                                     </form> : props.squads[0].rb1FirstName + " " + props.squads[0].rb1LastName}</li>
-                                <li key={3}>RB #2: {props.squads[0].rb2FirstName == null ? 
+                                <li key={3}>RB #2: {props.squads[0].rb2FirstName == null ?
                                     <form action="/player-draft" method="post">
                                         <input type="hidden" value="rb" name="position" />
                                         <input type="hidden" value="RB2PlayerID" name="columnName" />
                                         <button type="button" className="selectbtn" type="submit">Draft your RB #2</button>
                                     </form> : props.squads[0].rb2FirstName + " " + props.squads[0].rb2LastName}</li>
-                                <li key={4}>TE: {props.squads[0].teFirstName== null ? 
+                                <li key={4}>TE: {props.squads[0].teFirstName== null ?
                                      <form action="/player-draft" method="post">
                                         <input type="hidden" value="te" name="position" />
                                         <input type="hidden" value="TEPlayerID" name="columnName" />
-                                        <button type="button" className="selectbtn" type="submit">Draft your TE</button> 
+                                        <button type="button" className="selectbtn" type="submit">Draft your TE</button>
                                     </form>: props.squads[0].teFirstName + " " + props.squads[0].teLastName}</li>
-                                <li key={5}>WR #1: {props.squads[0].wr1FirstName == null ? 
+                                <li key={5}>WR #1: {props.squads[0].wr1FirstName == null ?
                                     <form action="/player-draft" method="post">
                                         <input type="hidden" value="wr" name="position" />
                                         <input type="hidden" value="WR1PlayerID" name="columnName" />
                                         <button type="button" className="selectbtn" type="submit">Draft your WR #1</button>
                                     </form> : props.squads[0].wr1FirstName + " " + props.squads[0].wr1LastName}</li>
-                                <li key={6}>WR #2: {props.squads[0].wr2FirstName == null ? 
+                                <li key={6}>WR #2: {props.squads[0].wr2FirstName == null ?
                                     <form action="/player-draft" method="post">
                                         <input type="hidden" value="wr" name="position" />
                                         <input type="hidden" value="WR2PlayerID" name="columnName" />
@@ -54,7 +54,7 @@ function squadselection(props) {
                                     </form> : props.squads[0].wr2FirstName + " " + props.squads[0].wr2LastName}</li>
                             </ul>
                         </section>
-            
+
                         <section className="column2">
                             <h4>Squad Standings</h4>
                             <div className="tableWrapper">
@@ -170,4 +170,4 @@ function squadselection(props) {
     );
 }
 
-module.exports = squadselection;
+module.exports = SquadSelection;

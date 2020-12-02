@@ -10,7 +10,9 @@ const { v4: uuidv4 } = require('uuid');
 
 var indexRouter = require('./routes/index');
 var playersRouter = require('./routes/players');
+var gameDetailsRouter = require('./routes/gameDetails');
 var teamsRouter = require('./routes/teams');
+var standingsRouter = require('./routes/standings');
 var squadSelection = require('./routes/squadSelection');
 var playerDraftRouter = require('./routes/playerDraft');
 var loginRouter = require('./routes/login');
@@ -26,7 +28,7 @@ app.engine('jsx', require('express-react-views').createEngine());
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(bodyParser.urlencoded({ extended: true })); 
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(session({secret: uuidv4()}));
@@ -35,8 +37,10 @@ app.use(express.static(path.join(__dirname, '/public')));
 // Router mounting
 app.use('/', indexRouter);
 app.use('/api', apiRouter);
+app.use('/game-details', gameDetailsRouter);
 app.use('/players', playersRouter);
 app.use('/teams', teamsRouter);
+app.use('/standings', standingsRouter);
 app.use('/login', loginRouter);
 app.use('/register', registerRouter);
 app.use('/squad-selection', squadSelection);

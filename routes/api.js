@@ -19,12 +19,12 @@ const config = {
 };
 
 /*
-    User Auth API Queries 
+    User Auth API Queries
 */
 router.post('/register', function(req, res) {
     const connection = new Connection(config);
 
-    const sql = `INSERT INTO dbo.Users (FirstName, LastName, Email, Username, PW) 
+    const sql = `INSERT INTO dbo.Users (FirstName, LastName, Email, Username, PW)
                 VALUES ('${req.body.firstName}', '${req.body.lastName}', '${req.body.email}', '${req.body.uname}', '${req.body.psw}');`;
 
     // Attempt to connect and execute queries if connection goes through
@@ -43,7 +43,7 @@ router.post('/login', function(req, res) {
     const sql = `SELECT TOP 1 ID, FirstName, LastName, Username, Email
                 FROM dbo.Users
                 WHERE Username = '${req.body.uname}' AND PW = '${req.body.psw}';`;
-                
+
     // Attempt to connect and execute queries if connection goes through
     connection.on("connect", err => {
         if (err) {
@@ -55,7 +55,7 @@ router.post('/login', function(req, res) {
 });
 
 /*
-    NFL Teams API Queries 
+    NFL Teams API Queries
 */
 router.get('/teams', function(req, res) {
     const connection = new Connection(config);
@@ -70,6 +70,38 @@ router.get('/teams', function(req, res) {
             console.error(err.message);
         } else {
             queryTeamsTable(connection, sql, res);
+        }
+    });
+});
+
+router.get('/teams/home-teams', function(req, res) {
+    const connection = new Connection(config);
+
+    const sql = `SELECT TeamABR, Team
+                FROM dbo.Teams`;
+
+    // Attempt to connect and execute queries if connection goes through
+    connection.on("connect", err => {
+        if (err) {
+            console.error(err.message);
+        } else {
+            queryTeamsTableForHomeTeams(connection, sql, res);
+        }
+    });
+});
+
+router.get('/teams/away-teams', function(req, res) {
+    const connection = new Connection(config);
+
+    const sql = `SELECT TeamABR, Team
+                FROM dbo.Teams`;
+
+    // Attempt to connect and execute queries if connection goes through
+    connection.on("connect", err => {
+        if (err) {
+            console.error(err.message);
+        } else {
+            queryTeamsTableForAwayTeams(connection, sql, res);
         }
     });
 });
@@ -92,16 +124,56 @@ router.get('/teams/sort-lyp', function(req, res) {
 });
 
 /*
+    NFL Team Standings
+*/
+router.get('/standings', function(req, res) {
+    const connection = new Connection(config);
+
+    const sql = `SELECT
+                	Standings.Season
+                	,Standings.TeamABR
+                	,Teams.Team
+                	,Standings.Conference
+                    ,Standings.ConferenceRank
+                	,Standings.Division
+                	,Standings.DivisionRank
+                    ,Standings.Wins
+                    ,Standings.Losses
+                    ,Standings.Ties
+                    ,Standings.Perc
+                    ,Standings.PointsFor
+                    ,Standings.PointsAgainst
+                    ,Standings.NetPoints
+                    ,Standings.Touchdowns
+                    ,Standings.DivisionWins
+                    ,Standings.DivisionLosses
+                    ,Standings.ConferenceWins
+                    ,Standings.ConferenceLosses
+                FROM Standings, Teams
+                WHERE Teams.TeamABR = Standings.TeamABR
+                ORDER BY Team DESC;`;
+
+    // Attempt to connect and execute queries if connection goes through
+    connection.on("connect", err => {
+        if (err) {
+            console.error(err.message);
+        } else {
+            queryStandingsTable(connection, sql, res);
+        }
+    });
+});
+
+/*
     NFL Players API Queries
 */
 router.get('/players', function(req, res) {
     const connection = new Connection(config);
 
-    const sql = `SELECT 
+    const sql = `SELECT
                     Players.ID,
-	                Teams.Team, 
-                    Players.Position, 
-                    Players.FirstName, 
+	                Teams.Team,
+                    Players.Position,
+                    Players.FirstName,
                     Players.LastName,
                     Players.PassYrds,
                     Players.RushYrds,
@@ -128,11 +200,11 @@ router.get('/players', function(req, res) {
 router.get('/players/search', function(req, res) {
     const connection = new Connection(config);
 
-    const sql = `SELECT 
+    const sql = `SELECT
                     Players.ID,
-	                Teams.Team, 
-                    Players.Position, 
-                    Players.FirstName, 
+	                Teams.Team,
+                    Players.Position,
+                    Players.FirstName,
                     Players.LastName,
                     Players.PassYrds,
                     Players.RushYrds,
@@ -159,11 +231,11 @@ router.get('/players/search', function(req, res) {
 router.get('/players/position-desc', function(req, res) {
     const connection = new Connection(config);
 
-    const sql = `SELECT 
+    const sql = `SELECT
                     Players.ID,
-	                Teams.Team, 
-                    Players.Position, 
-                    Players.FirstName, 
+	                Teams.Team,
+                    Players.Position,
+                    Players.FirstName,
                     Players.LastName,
                     Players.PassYrds,
                     Players.RushYrds,
@@ -191,11 +263,11 @@ router.get('/players/position-desc', function(req, res) {
 router.get('/players/position-asc', function(req, res) {
     const connection = new Connection(config);
 
-    const sql = `SELECT 
+    const sql = `SELECT
                     Players.ID,
-	                Teams.Team, 
-                    Players.Position, 
-                    Players.FirstName, 
+	                Teams.Team,
+                    Players.Position,
+                    Players.FirstName,
                     Players.LastName,
                     Players.PassYrds,
                     Players.RushYrds,
@@ -223,11 +295,11 @@ router.get('/players/position-asc', function(req, res) {
 router.get('/players/first-desc', function(req, res) {
     const connection = new Connection(config);
 
-    const sql = `SELECT 
+    const sql = `SELECT
                     Players.ID,
-	                Teams.Team, 
-                    Players.Position, 
-                    Players.FirstName, 
+	                Teams.Team,
+                    Players.Position,
+                    Players.FirstName,
                     Players.LastName,
                     Players.PassYrds,
                     Players.RushYrds,
@@ -255,11 +327,11 @@ router.get('/players/first-desc', function(req, res) {
 router.get('/players/first-asc', function(req, res) {
     const connection = new Connection(config);
 
-    const sql = `SELECT 
+    const sql = `SELECT
                     Players.ID,
-	                Teams.Team, 
-                    Players.Position, 
-                    Players.FirstName, 
+	                Teams.Team,
+                    Players.Position,
+                    Players.FirstName,
                     Players.LastName,
                     Players.PassYrds,
                     Players.RushYrds,
@@ -287,11 +359,11 @@ router.get('/players/first-asc', function(req, res) {
 router.get('/players/last-desc', function(req, res) {
     const connection = new Connection(config);
 
-    const sql = `SELECT 
+    const sql = `SELECT
                     Players.ID,
-	                Teams.Team, 
-                    Players.Position, 
-                    Players.FirstName, 
+	                Teams.Team,
+                    Players.Position,
+                    Players.FirstName,
                     Players.LastName,
                     Players.PassYrds,
                     Players.RushYrds,
@@ -319,11 +391,11 @@ router.get('/players/last-desc', function(req, res) {
 router.get('/players/last-asc', function(req, res) {
     const connection = new Connection(config);
 
-    const sql = `SELECT 
+    const sql = `SELECT
                     Players.ID,
-	                Teams.Team, 
-                    Players.Position, 
-                    Players.FirstName, 
+	                Teams.Team,
+                    Players.Position,
+                    Players.FirstName,
                     Players.LastName,
                     Players.PassYrds,
                     Players.RushYrds,
@@ -351,11 +423,11 @@ router.get('/players/last-asc', function(req, res) {
 router.get('/players/passyrds-desc', function(req, res) {
     const connection = new Connection(config);
 
-    const sql = `SELECT 
+    const sql = `SELECT
                     Players.ID,
-	                Teams.Team, 
-                    Players.Position, 
-                    Players.FirstName, 
+	                Teams.Team,
+                    Players.Position,
+                    Players.FirstName,
                     Players.LastName,
                     Players.PassYrds,
                     Players.RushYrds,
@@ -383,11 +455,11 @@ router.get('/players/passyrds-desc', function(req, res) {
 router.get('/players/passyrds-asc', function(req, res) {
     const connection = new Connection(config);
 
-    const sql = `SELECT 
+    const sql = `SELECT
                     Players.ID,
-	                Teams.Team, 
-                    Players.Position, 
-                    Players.FirstName, 
+	                Teams.Team,
+                    Players.Position,
+                    Players.FirstName,
                     Players.LastName,
                     Players.PassYrds,
                     Players.RushYrds,
@@ -415,11 +487,11 @@ router.get('/players/passyrds-asc', function(req, res) {
 router.get('/players/rushyrds-desc', function(req, res) {
     const connection = new Connection(config);
 
-    const sql = `SELECT 
+    const sql = `SELECT
                     Players.ID,
-	                Teams.Team, 
-                    Players.Position, 
-                    Players.FirstName, 
+	                Teams.Team,
+                    Players.Position,
+                    Players.FirstName,
                     Players.LastName,
                     Players.PassYrds,
                     Players.RushYrds,
@@ -447,11 +519,11 @@ router.get('/players/rushyrds-desc', function(req, res) {
 router.get('/players/rushyrds-asc', function(req, res) {
     const connection = new Connection(config);
 
-    const sql = `SELECT 
+    const sql = `SELECT
                     Players.ID,
-	                Teams.Team, 
-                    Players.Position, 
-                    Players.FirstName, 
+	                Teams.Team,
+                    Players.Position,
+                    Players.FirstName,
                     Players.LastName,
                     Players.PassYrds,
                     Players.RushYrds,
@@ -479,11 +551,11 @@ router.get('/players/rushyrds-asc', function(req, res) {
 router.get('/players/rushatt-desc', function(req, res) {
     const connection = new Connection(config);
 
-    const sql = `SELECT 
+    const sql = `SELECT
                     Players.ID,
-	                Teams.Team, 
-                    Players.Position, 
-                    Players.FirstName, 
+	                Teams.Team,
+                    Players.Position,
+                    Players.FirstName,
                     Players.LastName,
                     Players.PassYrds,
                     Players.RushYrds,
@@ -511,11 +583,11 @@ router.get('/players/rushatt-desc', function(req, res) {
 router.get('/players/rushatt-asc', function(req, res) {
     const connection = new Connection(config);
 
-    const sql = `SELECT 
+    const sql = `SELECT
                     Players.ID,
-	                Teams.Team, 
-                    Players.Position, 
-                    Players.FirstName, 
+	                Teams.Team,
+                    Players.Position,
+                    Players.FirstName,
                     Players.LastName,
                     Players.PassYrds,
                     Players.RushYrds,
@@ -543,11 +615,11 @@ router.get('/players/rushatt-asc', function(req, res) {
 router.get('/players/rec-desc', function(req, res) {
     const connection = new Connection(config);
 
-    const sql = `SELECT 
+    const sql = `SELECT
                     Players.ID,
-	                Teams.Team, 
-                    Players.Position, 
-                    Players.FirstName, 
+	                Teams.Team,
+                    Players.Position,
+                    Players.FirstName,
                     Players.LastName,
                     Players.PassYrds,
                     Players.RushYrds,
@@ -575,11 +647,11 @@ router.get('/players/rec-desc', function(req, res) {
 router.get('/players/rec-asc', function(req, res) {
     const connection = new Connection(config);
 
-    const sql = `SELECT 
+    const sql = `SELECT
                     Players.ID,
-	                Teams.Team, 
-                    Players.Position, 
-                    Players.FirstName, 
+	                Teams.Team,
+                    Players.Position,
+                    Players.FirstName,
                     Players.LastName,
                     Players.PassYrds,
                     Players.RushYrds,
@@ -607,11 +679,11 @@ router.get('/players/rec-asc', function(req, res) {
 router.get('/players/recyrds-desc', function(req, res) {
     const connection = new Connection(config);
 
-    const sql = `SELECT 
+    const sql = `SELECT
                     Players.ID,
-	                Teams.Team, 
-                    Players.Position, 
-                    Players.FirstName, 
+	                Teams.Team,
+                    Players.Position,
+                    Players.FirstName,
                     Players.LastName,
                     Players.PassYrds,
                     Players.RushYrds,
@@ -639,11 +711,11 @@ router.get('/players/recyrds-desc', function(req, res) {
 router.get('/players/recyrds-asc', function(req, res) {
     const connection = new Connection(config);
 
-    const sql = `SELECT 
+    const sql = `SELECT
                     Players.ID,
-	                Teams.Team, 
-                    Players.Position, 
-                    Players.FirstName, 
+	                Teams.Team,
+                    Players.Position,
+                    Players.FirstName,
                     Players.LastName,
                     Players.PassYrds,
                     Players.RushYrds,
@@ -671,11 +743,11 @@ router.get('/players/recyrds-asc', function(req, res) {
 router.get('/players/tds-desc', function(req, res) {
     const connection = new Connection(config);
 
-    const sql = `SELECT 
+    const sql = `SELECT
                     Players.ID,
-	                Teams.Team, 
-                    Players.Position, 
-                    Players.FirstName, 
+	                Teams.Team,
+                    Players.Position,
+                    Players.FirstName,
                     Players.LastName,
                     Players.PassYrds,
                     Players.RushYrds,
@@ -703,11 +775,11 @@ router.get('/players/tds-desc', function(req, res) {
 router.get('/players/tds-asc', function(req, res) {
     const connection = new Connection(config);
 
-    const sql = `SELECT 
+    const sql = `SELECT
                     Players.ID,
-	                Teams.Team, 
-                    Players.Position, 
-                    Players.FirstName, 
+	                Teams.Team,
+                    Players.Position,
+                    Players.FirstName,
                     Players.LastName,
                     Players.PassYrds,
                     Players.RushYrds,
@@ -735,11 +807,11 @@ router.get('/players/tds-asc', function(req, res) {
 router.get('/players/cmpperc-desc', function(req, res) {
     const connection = new Connection(config);
 
-    const sql = `SELECT 
+    const sql = `SELECT
                     Players.ID,
-	                Teams.Team, 
-                    Players.Position, 
-                    Players.FirstName, 
+	                Teams.Team,
+                    Players.Position,
+                    Players.FirstName,
                     Players.LastName,
                     Players.PassYrds,
                     Players.RushYrds,
@@ -767,11 +839,11 @@ router.get('/players/cmpperc-desc', function(req, res) {
 router.get('/players/cmpperc-asc', function(req, res) {
     const connection = new Connection(config);
 
-    const sql = `SELECT 
+    const sql = `SELECT
                     Players.ID,
-	                Teams.Team, 
-                    Players.Position, 
-                    Players.FirstName, 
+	                Teams.Team,
+                    Players.Position,
+                    Players.FirstName,
                     Players.LastName,
                     Players.PassYrds,
                     Players.RushYrds,
@@ -799,11 +871,11 @@ router.get('/players/cmpperc-asc', function(req, res) {
 router.get('/players/int-desc', function(req, res) {
     const connection = new Connection(config);
 
-    const sql = `SELECT 
+    const sql = `SELECT
                     Players.ID,
-	                Teams.Team, 
-                    Players.Position, 
-                    Players.FirstName, 
+	                Teams.Team,
+                    Players.Position,
+                    Players.FirstName,
                     Players.LastName,
                     Players.PassYrds,
                     Players.RushYrds,
@@ -831,11 +903,11 @@ router.get('/players/int-desc', function(req, res) {
 router.get('/players/int-asc', function(req, res) {
     const connection = new Connection(config);
 
-    const sql = `SELECT 
+    const sql = `SELECT
                     Players.ID,
-	                Teams.Team, 
-                    Players.Position, 
-                    Players.FirstName, 
+	                Teams.Team,
+                    Players.Position,
+                    Players.FirstName,
                     Players.LastName,
                     Players.PassYrds,
                     Players.RushYrds,
@@ -863,11 +935,11 @@ router.get('/players/int-asc', function(req, res) {
 router.get('/players/gp-desc', function(req, res) {
     const connection = new Connection(config);
 
-    const sql = `SELECT 
+    const sql = `SELECT
                     Players.ID,
-	                Teams.Team, 
-                    Players.Position, 
-                    Players.FirstName, 
+	                Teams.Team,
+                    Players.Position,
+                    Players.FirstName,
                     Players.LastName,
                     Players.PassYrds,
                     Players.RushYrds,
@@ -895,11 +967,11 @@ router.get('/players/gp-desc', function(req, res) {
 router.get('/players/gp-asc', function(req, res) {
     const connection = new Connection(config);
 
-    const sql = `SELECT 
+    const sql = `SELECT
                     Players.ID,
-	                Teams.Team, 
-                    Players.Position, 
-                    Players.FirstName, 
+	                Teams.Team,
+                    Players.Position,
+                    Players.FirstName,
                     Players.LastName,
                     Players.PassYrds,
                     Players.RushYrds,
@@ -927,11 +999,11 @@ router.get('/players/gp-asc', function(req, res) {
 router.get('/players/qb', function(req, res) {
     const connection = new Connection(config);
 
-    const sql = `SELECT 
+    const sql = `SELECT
                     Players.ID,
-	                Teams.Team, 
-                    Players.Position, 
-                    Players.FirstName, 
+	                Teams.Team,
+                    Players.Position,
+                    Players.FirstName,
                     Players.LastName,
                     Players.PassYrds,
                     Players.RushYrds,
@@ -959,11 +1031,11 @@ router.get('/players/qb', function(req, res) {
 router.get('/players/rb', function(req, res) {
     const connection = new Connection(config);
 
-    const sql = `SELECT 
+    const sql = `SELECT
                     Players.ID,
-	                Teams.Team, 
-                    Players.Position, 
-                    Players.FirstName, 
+	                Teams.Team,
+                    Players.Position,
+                    Players.FirstName,
                     Players.LastName,
                     Players.PassYrds,
                     Players.RushYrds,
@@ -991,11 +1063,11 @@ router.get('/players/rb', function(req, res) {
 router.get('/players/te', function(req, res) {
     const connection = new Connection(config);
 
-    const sql = `SELECT 
+    const sql = `SELECT
                     Players.ID,
-	                Teams.Team, 
-                    Players.Position, 
-                    Players.FirstName, 
+	                Teams.Team,
+                    Players.Position,
+                    Players.FirstName,
                     Players.LastName,
                     Players.PassYrds,
                     Players.RushYrds,
@@ -1023,11 +1095,11 @@ router.get('/players/te', function(req, res) {
 router.get('/players/wr', function(req, res) {
     const connection = new Connection(config);
 
-    const sql = `SELECT 
+    const sql = `SELECT
                     Players.ID,
-	                Teams.Team, 
-                    Players.Position, 
-                    Players.FirstName, 
+	                Teams.Team,
+                    Players.Position,
+                    Players.FirstName,
                     Players.LastName,
                     Players.PassYrds,
                     Players.RushYrds,
@@ -1057,7 +1129,7 @@ router.get('/user-squad', function(req, res) {
 
     console.log("REQ: ", req.body);
 
-    const sql = `SELECT 
+    const sql = `SELECT
                     QBPlayer.Position as QBPosition,
                     QBPlayer.FirstName as QBFirstName,
                     QBPlayer.LastName as QBLastName,
@@ -1107,7 +1179,7 @@ router.get('/user-squad', function(req, res) {
     });
 });
 
-/* 
+/*
     DRAFT INSERT APIs
 */
 router.post('/draft', function(req, res) {
@@ -1174,6 +1246,93 @@ function queryTeamsTable(conn, sqlString, result) {
             team: row[1].value,
             lyp: row[2].value,
             typ: row[3].value
+        });
+    })
+
+    conn.execSql(request);
+}
+
+function queryTeamsTableForHomeTeams(conn, sqlString, result) {
+
+    let data = [];
+    const request = new Request(sqlString,
+        (err, rowCount, rows) => {
+            if (err) {
+                result.send({ status: 500, data: err, message: "Internal Server Error."});
+            } else {
+                result.send({ status: 200, data: data, message: "OK"});
+            }
+        }
+    );
+
+    request.on('row', function(row){
+        data.push({
+            HomeTeam: row[0].value,
+            HomeTeamName: row[1].value,
+        });
+    })
+
+    conn.execSql(request);
+}
+
+function queryTeamsTableForAwayTeams(conn, sqlString, result) {
+
+    let data = [];
+    const request = new Request(sqlString,
+        (err, rowCount, rows) => {
+            if (err) {
+                result.send({ status: 500, data: err, message: "Internal Server Error."});
+            } else {
+                result.send({ status: 200, data: data, message: "OK"});
+            }
+        }
+    );
+
+    request.on('row', function(row){
+        data.push({
+            AwayTeam: row[0].value,
+            AwayTeamName: row[1].value,
+        });
+    })
+
+    conn.execSql(request);
+}
+
+function queryStandingsTable(conn, sqlString, result) {
+
+    let data = [];
+    const request = new Request(sqlString,
+        (err, rowCount, rows) => {
+            if (err) {
+                result.send({ status: 500, data: err, message: "Internal Server Error."});
+            } else {
+                result.send({ status: 200, data: data, message: "OK"});
+            }
+        }
+    );
+
+    request.on('row', function(row){
+        console.log("ROW: ", row);
+        data.push({
+            season: row[0].value,
+            teamAbr: row[1].value,
+            team: row[2].value,
+            conference: row[3].value,
+            conferenceRank: row[4].value,
+            division: row[5].value,
+            divisionRank: row[6].value,
+            wins: row[7].value,
+            losses: row[8].value,
+            ties: row[9].value,
+            percentage: row[10].value,
+            pointsFor: row[11].value,
+            pointsAgainst: row[12].value,
+            netPoints: row[13].value,
+            touchdowns: row[14].value,
+            divisionWins: row[15].value,
+            divisionLosses: row[16].value,
+            conferenceWins: row[17].value,
+            conferenceLosses: row[18].value,
         });
     })
 
