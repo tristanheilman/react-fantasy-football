@@ -115,6 +115,7 @@ router.get('/', async function(req, res, next) {
             data: null
         };
     });
+    console.log("DATA RESULT: ", upcomingDataResult);
     if(homeQueryResult.status == 200 && awayQueryResult.status == 200 && upcomingDataResult.status == 200 &&  scoresLastWeekResult.status == 200 && scoresThisWeekResult.status == 200) {
 
         let homeTeams = homeQueryResult.data;
@@ -162,7 +163,14 @@ router.get('/', async function(req, res, next) {
             );
         }
 
-        res.render('gameDetails', { title: 'Fantasy Football', upcomingData: upcomingDataResult.data[0], lastWeekScores: lastWeekScoresMergedAgain, thisWeekScores: thisWeekScoresMergedAgain});
+        let upcomingData = upcomingDataResult.data;
+
+        if(upcomingData[0] !== undefined) {
+            upcomingData = upcomingData[0];
+            upcomingData.statusCode = 200;
+        }
+
+        res.render('gameDetails', { title: 'Fantasy Football', upcomingData:upcomingData, lastWeekScores: lastWeekScoresMergedAgain, thisWeekScores: thisWeekScoresMergedAgain});
     } else {
         res.render('error', { message: '' });
     }

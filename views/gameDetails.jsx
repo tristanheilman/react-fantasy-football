@@ -2,16 +2,22 @@ import React from 'react';
 var DefaultLayout = require('./layouts/default');
 
 function GameDetails(props) {
+    console.log("PROPS: ", props);
     return (
         <DefaultLayout title={props.title}>
             <h2>Current Week Details</h2>
-            <p>Week Name: {props.upcomingData.Name}</p>
-            <p>Season: {props.upcomingData.Season}</p>
-            <p>Week: {props.upcomingData.Week}</p>
-            <p>Start of Week: {new Date(props.upcomingData.StartDate).toDateString()}</p>
-            <p>End of Week: {new Date(props.upcomingData.EndDate).toDateString()}</p>
-            <p>Games Started: {props.upcomingData.HasStarted ? "Yes" : "No"}</p>
-            <p>API Season: {props.upcomingData.ApiSeason}</p>
+            {props.upcomingData.statusCode !== 403 ?
+                <div>
+                    <p>Week Name: {props.upcomingData.Name}</p>
+                    <p>Season: {props.upcomingData.Season}</p>
+                    <p>Week: {props.upcomingData.Week}</p>
+                    <p>Start of Week: {new Date(props.upcomingData.StartDate).toDateString()}</p>
+                    <p>End of Week: {new Date(props.upcomingData.EndDate).toDateString()}</p>
+                    <p>Games Started: {props.upcomingData.HasStarted ? "Yes" : "No"}</p>
+                    <p>API Season: {props.upcomingData.ApiSeason}</p>
+                </div>
+            : <p>Data could not be retrieved at this time. Quota limit will reset soon.</p>
+            }
             <h2>NFL Current Games</h2>
             <div className="tableWrapper">
                <table className="players-table">
@@ -133,10 +139,6 @@ function GameDetails(props) {
                                 <td>{item.AwayScore}</td>
                                 <td>{item.PointSpread}</td>
                                 <td>{item.OverUnder}</td>
-                                <td>{item.StadiumDetails.Name}</td>
-                                <td>{item.StadiumDetails.City}</td>
-                                <td>{item.StadiumDetails.State}</td>
-                                <td>{item.StadiumDetails.Type}</td>
                             </tr>
                         )}
                     </tbody>
